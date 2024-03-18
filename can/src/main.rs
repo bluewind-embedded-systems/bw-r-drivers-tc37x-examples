@@ -137,7 +137,7 @@ fn main() -> ! {
     };
 
     info!("Allocate a buffer for the message data");
-    let mut tx_msg_data: [u8; 8] = [0, 1, 2, 3, 4, 5, 6, 7];
+    let mut tx_msg_data: [u8; 8] = [0, 0xAA, 2, 3, 4, 5, 6, 7];
     let mut rx_msg_data: [u8; 8] = Default::default();
 
     loop {
@@ -147,7 +147,7 @@ fn main() -> ! {
         let tx_frame = Frame::new(tx_msg_id, tx_msg_data.as_slice()).unwrap();
 
         if can0.transmit(&tx_frame).is_err() {
-            info!("Cannot send frame");
+            // info!("Cannot send frame");
         }
 
         // if can1.transmit(&tx_frame).is_err() {
@@ -161,7 +161,7 @@ fn main() -> ! {
 
         let can0_node0_received = CAN0_NODE0_NEW_MSG.load(Ordering::SeqCst);
         if can0_node0_received {
-            info!("msg received");
+            // info!("msg received");
             CAN0_NODE0_NEW_MSG.store(false, Ordering::SeqCst);
 
             // TODO For symmetry, it should receive a frame, with can id too

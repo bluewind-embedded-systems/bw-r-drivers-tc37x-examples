@@ -3,28 +3,26 @@
 #![no_main]
 #![no_std]
 
-#[cfg(target_arch = "tricore")]
-bw_r_rt_example::entry!(main);
-
-use core::time::Duration;
+use bw_r_drivers_tc37x::can::config::NodeInterruptConfig;
+use bw_r_drivers_tc37x::can::msg::ReadFrom;
+use bw_r_drivers_tc37x::can::pin_map::*;
 use bw_r_drivers_tc37x::can::Frame;
 use bw_r_drivers_tc37x::can::InterruptLine;
 use bw_r_drivers_tc37x::can::MessageId;
-use embedded_can::ExtendedId;
-use bw_r_drivers_tc37x::can::config::NodeInterruptConfig;
-use bw_r_drivers_tc37x::can::pin_map::*;
 use bw_r_drivers_tc37x::can::*;
+use bw_r_drivers_tc37x::cpu::Priority;
 use bw_r_drivers_tc37x::gpio::GpioExt;
 use bw_r_drivers_tc37x::log::info;
-use bw_r_drivers_tc37x::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
-use bw_r_drivers_tc37x::{pac, ssw};
 use bw_r_drivers_tc37x::pac::can0::{Can0, N as Can0Node};
-use bw_r_rt_example::{isr::load_interrupt_table, post_init, pre_init};
+use bw_r_drivers_tc37x::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
+use bw_r_drivers_tc37x::scu::wdt_call::call_without_endinit;
+use bw_r_drivers_tc37x::{pac, ssw};
+use core::arch::asm;
 use core::sync::atomic::AtomicBool;
 use core::sync::atomic::Ordering;
-use bw_r_drivers_tc37x::cpu::Priority;
-use bw_r_drivers_tc37x::can::msg::ReadFrom;
-use bw_r_rt_example::asm_calls::{read_cpu_core_id, enable_interrupts};
+use core::time::Duration;
+use critical_section::RawRestoreState;
+use embedded_can::ExtendedId;
 
 pub static CAN0_NODE0_NEW_MSG: AtomicBool = AtomicBool::new(false);
 
@@ -105,17 +103,15 @@ fn init_can_stb_pin() {
     stb.set_low();
 }
 
+#[export_name = "main"]
 fn main() -> ! {
-    #[cfg(not(target_arch = "tricore"))]
-    let _report = bw_r_drivers_tc37x::tracing::print::Report::new();
-
-    #[cfg(feature = "log_with_env_logger")]
-    env_logger::init();
-
     info!("Start example: can_send");
 
     info!("Enable interrupts");
-    enable_interrupts();
+
+    unsafe {
+        asm!("enable");
+    }
 
     info!("Setup notification LED");
     let gpio00 = pac::P00.split();
@@ -179,31 +175,30 @@ fn main() -> ! {
 }
 
 /// Wait for a number of cycles roughly calculated from a duration.
-// TODO Are we sure we want to publish this function?
 #[inline(always)]
-fn wait_nop(period: Duration) {
-    #[cfg(target_arch = "tricore")]
-    {
-        use bw_r_drivers_tc37x::util::wait_nop_cycles;
-        let ns = period.as_nanos() as u32;
-        let n_cycles = ns / 920;
-        wait_nop_cycles(n_cycles);
+pub fn wait_nop(period: Duration) {
+    let ns: u32 = period.as_nanos() as u32;
+    let n_cycles = ns / 920;
+    for _ in 0..n_cycles {
+        // SAFETY: nop is always safe
+        unsafe { core::arch::asm!("nop") };
     }
-
-    #[cfg(not(target_arch = "tricore"))]
-    std::thread::sleep(period);
 }
 
 // Note: without this, the watchdog will reset the CPU
-pre_init!(pre_init_fn);
+#[export_name = "Crt0PreInit"]
 fn pre_init_fn() {
-    if read_cpu_core_id() == 0 {
+    let cpu_core_id: u32;
+    unsafe {
+        core::arch::asm!("mfcr {0}, 0xFE1C", out(reg32) cpu_core_id);
+    }
+    if cpu_core_id == 0 {
         disable_safety_watchdog();
     }
     disable_cpu_watchdog();
 }
 
-post_init!(post_init_fn);
+#[export_name = "Crt0PostInit"]
 fn post_init_fn() {
     if let Err(_) = ssw::init_clock() {
         info!("Error in ssw init");
@@ -213,33 +208,39 @@ fn post_init_fn() {
     load_interrupt_table();
 }
 
-#[cfg(target_arch = "tricore")]
 #[allow(unused_variables)]
 #[panic_handler]
 fn panic(panic: &core::panic::PanicInfo<'_>) -> ! {
-    defmt::error!("Panic! {}", defmt::Display2Format(panic));
+    // defmt::error!("Panic! {}", defmt::Display2Format(panic));
     #[allow(clippy::empty_loop)]
     loop {}
 }
 
-mod critical_section_impl {
-    use core::arch::asm;
-    use critical_section::RawRestoreState;
+struct Section;
 
-    struct Section;
+critical_section::set_impl!(Section);
 
-    critical_section::set_impl!(Section);
+unsafe impl critical_section::Impl for Section {
+    unsafe fn acquire() -> RawRestoreState {
+        unsafe { asm!("disable") };
+        true
+    }
 
-    unsafe impl critical_section::Impl for Section {
-        unsafe fn acquire() -> RawRestoreState {
-            unsafe { asm!("disable") };
-            true
-        }
-
-        unsafe fn release(token: RawRestoreState) {
-            if token {
-                unsafe { asm!("enable") }
-            }
+    unsafe fn release(token: RawRestoreState) {
+        if token {
+            unsafe { asm!("enable") }
         }
     }
+}
+
+extern "C" {
+    static __INTERRUPT_TABLE: u8;
+}
+
+pub fn load_interrupt_table() {
+    call_without_endinit(|| unsafe {
+        let interrupt_table = &__INTERRUPT_TABLE as *const u8 as u32;
+        asm!("mtcr	$biv, {0}", in(reg32) interrupt_table);
+        asm!("isync");
+    });
 }

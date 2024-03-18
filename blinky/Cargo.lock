@@ -13,7 +13,6 @@ name = "blinky"
 version = "0.1.0"
 dependencies = [
  "bw-r-drivers-tc37x",
- "bw-r-rt-example",
  "critical-section",
  "defmt",
  "defmt-rtt",
@@ -29,14 +28,6 @@ dependencies = [
  "defmt-rtt",
  "embedded-can",
  "embedded-hal",
- "tc37x",
-]
-
-[[package]]
-name = "bw-r-rt-example"
-version = "0.1.0"
-dependencies = [
- "defmt",
  "tc37x",
 ]
 

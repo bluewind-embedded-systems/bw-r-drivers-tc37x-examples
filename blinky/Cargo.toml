@@ -1,0 +1,12 @@
+[package]
+name = "blinky"
+version = "0.1.0"
+edition = "2021"
+license = " BSL-1.0 license"
+
+[dependencies.bw-r-rt-example]
+path = "../../bw-r-rt-example"
+
+[dependencies.bw-r-drivers-tc37x]
+path = "../../bw-r-drivers-tc37x"
+features = ["log_with_defmt"]

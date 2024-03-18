@@ -10,8 +10,7 @@ defmt-rtt = "=0.4.0"
 critical-section = { version = "=1.1.2", features = [ "restore-state-bool" ] }
 
 [dependencies.bw-r-drivers-tc37x]
-git = "ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git"
-rev = "aba581d7fd0ebe19d995838fea10954594ace445"
+path = "../../bw-r-drivers-tc37x"
 features = ["log_with_defmt"]
 
 [dependencies.embedded-hal]

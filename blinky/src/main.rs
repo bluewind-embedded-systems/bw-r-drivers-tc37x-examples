@@ -1,19 +1,19 @@
 //! Blinks LED1 and LED2 on Aurix Lite Kit V2. Blinks faster when BUTTON1 is pressed.
 
-#![cfg_attr(target_arch = "tricore", no_main)]
-#![cfg_attr(target_arch = "tricore", no_std)]
+#![no_main]
+#![no_std]
 
 #[cfg(target_arch = "tricore")]
 bw_r_rt_example::entry!(main);
 
 use core::time::Duration;
 use embedded_hal::digital::StatefulOutputPin;
-use bw_r_driver_tc37x::gpio::GpioExt;
-use bw_r_driver_tc37x::log::info;
-use bw_r_driver_tc37x::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
-use bw_r_driver_tc37x::{pac, ssw};
-use bw_r_rt_example::{isr::load_interrupt_table, post_init, pre_init};
+use bw_r_drivers_tc37x::gpio::GpioExt;
+use bw_r_drivers_tc37x::log::info;
+use bw_r_drivers_tc37x::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
+use bw_r_drivers_tc37x::{pac, ssw};
 use bw_r_rt_example::asm_calls::read_cpu_core_id;
+use bw_r_rt_example::{isr::load_interrupt_table, post_init, pre_init};
 
 pub enum State {
     NotChanged = 0,
@@ -23,12 +23,6 @@ pub enum State {
 }
 
 fn main() -> ! {
-    #[cfg(not(target_arch = "tricore"))]
-    let _report = bw_r_driver_tc37x::tracing::print::Report::new();
-
-    #[cfg(feature = "log_with_env_logger")]
-    env_logger::init();
-
     let gpio00 = pac::P00.split();
 
     let mut led1 = gpio00.p00_5.into_push_pull_output();
@@ -82,16 +76,10 @@ fn main() -> ! {
 // TODO Are we sure we want to publish this function?
 #[inline(always)]
 fn wait_nop(period: Duration) {
-    #[cfg(target_arch = "tricore")]
-    {
-        use bw_r_driver_tc37x::util::wait_nop_cycles;
-        let ns = period.as_nanos() as u32;
-        let n_cycles = ns / 1412;
-        wait_nop_cycles(n_cycles);
-    }
-
-    #[cfg(not(target_arch = "tricore"))]
-    std::thread::sleep(period);
+    use bw_r_drivers_tc37x::util::wait_nop_cycles;
+    let ns = period.as_nanos() as u32;
+    let n_cycles = ns / 1412;
+    wait_nop_cycles(n_cycles);
 }
 
 // Note: without this, the watchdog will reset the CPU
@@ -117,13 +105,11 @@ fn post_init_fn() {
 #[allow(unused_variables)]
 #[panic_handler]
 fn panic(panic: &core::panic::PanicInfo<'_>) -> ! {
-    #[cfg(feature = "log_with_defmt")]
     defmt::error!("Panic! {}", defmt::Display2Format(panic));
     #[allow(clippy::empty_loop)]
     loop {}
 }
 
-#[cfg(feature = "log_with_defmt")]
 mod critical_section_impl {
     use core::arch::asm;
     use critical_section::RawRestoreState;

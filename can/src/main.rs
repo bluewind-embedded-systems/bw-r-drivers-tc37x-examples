@@ -1,31 +1,29 @@
 //! Simple CAN example.
 
-#![allow(unused_variables)]
-#![cfg_attr(target_arch = "tricore", no_main)]
-#![cfg_attr(target_arch = "tricore", no_std)]
+#![no_main]
+#![no_std]
 
 #[cfg(target_arch = "tricore")]
 bw_r_rt_example::entry!(main);
 
 use core::time::Duration;
-use bw_r_driver_tc37x::can::Frame;
-use bw_r_driver_tc37x::can::InterruptLine;
-use bw_r_driver_tc37x::can::MessageId;
+use bw_r_drivers_tc37x::can::Frame;
+use bw_r_drivers_tc37x::can::InterruptLine;
+use bw_r_drivers_tc37x::can::MessageId;
 use embedded_can::ExtendedId;
-use bw_r_driver_tc37x::can::config::NodeInterruptConfig;
-use bw_r_driver_tc37x::can::pin_map::*;
-use bw_r_driver_tc37x::can::*;
-use bw_r_driver_tc37x::gpio::GpioExt;
-use bw_r_driver_tc37x::log::info;
-use bw_r_driver_tc37x::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
-use bw_r_driver_tc37x::{pac, ssw};
-use tc37x::can0::{Can0, N as Can0Node};
-// use tc37x::can1::{Can1, N as Can1Node};
+use bw_r_drivers_tc37x::can::config::NodeInterruptConfig;
+use bw_r_drivers_tc37x::can::pin_map::*;
+use bw_r_drivers_tc37x::can::*;
+use bw_r_drivers_tc37x::gpio::GpioExt;
+use bw_r_drivers_tc37x::log::info;
+use bw_r_drivers_tc37x::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
+use bw_r_drivers_tc37x::{pac, ssw};
+use bw_r_drivers_tc37x::pac::can0::{Can0, N as Can0Node};
 use bw_r_rt_example::{isr::load_interrupt_table, post_init, pre_init};
 use core::sync::atomic::AtomicBool;
 use core::sync::atomic::Ordering;
-use bw_r_driver_tc37x::cpu::Priority;
-use bw_r_driver_tc37x::can::msg::ReadFrom;
+use bw_r_drivers_tc37x::cpu::Priority;
+use bw_r_drivers_tc37x::can::msg::ReadFrom;
 use bw_r_rt_example::asm_calls::{read_cpu_core_id, enable_interrupts};
 
 pub static CAN0_NODE0_NEW_MSG: AtomicBool = AtomicBool::new(false);
@@ -109,7 +107,7 @@ fn init_can_stb_pin() {
 
 fn main() -> ! {
     #[cfg(not(target_arch = "tricore"))]
-    let _report = bw_r_driver_tc37x::tracing::print::Report::new();
+    let _report = bw_r_drivers_tc37x::tracing::print::Report::new();
 
     #[cfg(feature = "log_with_env_logger")]
     env_logger::init();
@@ -186,7 +184,7 @@ fn main() -> ! {
 fn wait_nop(period: Duration) {
     #[cfg(target_arch = "tricore")]
     {
-        use bw_r_driver_tc37x::util::wait_nop_cycles;
+        use bw_r_drivers_tc37x::util::wait_nop_cycles;
         let ns = period.as_nanos() as u32;
         let n_cycles = ns / 920;
         wait_nop_cycles(n_cycles);
@@ -219,13 +217,11 @@ fn post_init_fn() {
 #[allow(unused_variables)]
 #[panic_handler]
 fn panic(panic: &core::panic::PanicInfo<'_>) -> ! {
-    #[cfg(feature = "log_with_defmt")]
     defmt::error!("Panic! {}", defmt::Display2Format(panic));
     #[allow(clippy::empty_loop)]
     loop {}
 }
 
-#[cfg(feature = "log_with_defmt")]
 mod critical_section_impl {
     use core::arch::asm;
     use critical_section::RawRestoreState;

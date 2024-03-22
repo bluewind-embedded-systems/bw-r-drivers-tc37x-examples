@@ -3,31 +3,32 @@
 #![no_main]
 #![no_std]
 
-use bw_r_drivers_tc37x::can::config::NodeInterruptConfig;
-use bw_r_drivers_tc37x::can::msg::ReadFrom;
-use bw_r_drivers_tc37x::can::pin_map::*;
-use bw_r_drivers_tc37x::can::Frame;
-use bw_r_drivers_tc37x::can::InterruptLine;
-use bw_r_drivers_tc37x::can::MessageId;
-use bw_r_drivers_tc37x::can::*;
-use bw_r_drivers_tc37x::cpu::Priority;
-use bw_r_drivers_tc37x::gpio::GpioExt;
-use bw_r_drivers_tc37x::log::info;
-use bw_r_drivers_tc37x::pac::can0::{Can0, N as Can0Node};
-use bw_r_drivers_tc37x::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
-use bw_r_drivers_tc37x::scu::wdt_call::call_without_endinit;
-use bw_r_drivers_tc37x::{pac, ssw};
+use bw_r_drivers_tc37x as drivers;
 use core::arch::asm;
 use core::sync::atomic::AtomicBool;
 use core::sync::atomic::Ordering;
 use core::time::Duration;
 use critical_section::RawRestoreState;
-use embedded_can::ExtendedId;
+use drivers::can::config::NodeInterruptConfig;
+use drivers::can::msg::ReadFrom;
+use drivers::can::pin_map::*;
+use drivers::can::Frame;
+use drivers::can::InterruptLine;
+use drivers::can::MessageId;
+use drivers::can::*;
+use drivers::cpu::Priority;
+use drivers::gpio::GpioExt;
+use drivers::log::info;
+use drivers::pac::can0::{Can0, N as Can0Node};
+use drivers::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
+use drivers::scu::wdt_call::call_without_endinit;
+use drivers::{pac, ssw};
+use drivers::embedded_can::ExtendedId;
 
-pub static CAN0_NODE0_NEW_MSG: AtomicBool = AtomicBool::new(false);
+static CAN0_NODE0_NEW_MSG: AtomicBool = AtomicBool::new(false);
 
 #[no_mangle]
-pub extern "C" fn __INTERRUPT_HANDLER_2() {
+extern "C" fn __INTERRUPT_HANDLER_2() {
     CAN0_NODE0_NEW_MSG.store(true, Ordering::SeqCst);
 }
 
@@ -176,7 +177,7 @@ fn main() -> ! {
 
 /// Wait for a number of cycles roughly calculated from a duration.
 #[inline(always)]
-pub fn wait_nop(period: Duration) {
+fn wait_nop(period: Duration) {
     let ns: u32 = period.as_nanos() as u32;
     let n_cycles = ns / 920;
     for _ in 0..n_cycles {
@@ -237,7 +238,7 @@ extern "C" {
     static __INTERRUPT_TABLE: u8;
 }
 
-pub fn load_interrupt_table() {
+fn load_interrupt_table() {
     call_without_endinit(|| unsafe {
         let interrupt_table = &__INTERRUPT_TABLE as *const u8 as u32;
         asm!("mtcr	$biv, {0}", in(reg32) interrupt_table);
@@ -249,11 +250,11 @@ mod runtime {
     use core::arch::global_asm;
 
     extern "C" {
-        pub fn _exit(status: u32) -> !;
+        fn _exit(status: u32) -> !;
     }
 
     #[no_mangle]
-    pub unsafe fn abort() -> ! {
+    unsafe fn abort() -> ! {
         _exit(0xff);
     }
 

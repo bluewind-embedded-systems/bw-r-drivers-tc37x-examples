@@ -3,22 +3,16 @@
 #![no_main]
 #![no_std]
 
-use bw_r_drivers_tc37x::gpio::GpioExt;
-use bw_r_drivers_tc37x::log::info;
-use bw_r_drivers_tc37x::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
-use bw_r_drivers_tc37x::scu::wdt_call::call_without_endinit;
-use bw_r_drivers_tc37x::{pac, ssw};
+use bw_r_drivers_tc37x as drivers;
 use core::arch::asm;
 use core::time::Duration;
 use critical_section::RawRestoreState;
-use embedded_hal::digital::StatefulOutputPin;
-
-pub enum State {
-    NotChanged = 0,
-    High = 1,
-    Low = 1 << 16,
-    Toggled = (1 << 16) | 1,
-}
+use drivers::embedded_hal::digital::StatefulOutputPin;
+use drivers::gpio::GpioExt;
+use drivers::log::info;
+use drivers::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
+use drivers::scu::wdt_call::call_without_endinit;
+use drivers::{pac, ssw};
 
 #[export_name = "main"]
 fn main() -> ! {
@@ -73,7 +67,7 @@ fn main() -> ! {
 
 /// Wait for a number of cycles roughly calculated from a duration.
 #[inline(always)]
-pub fn wait_nop(period: Duration) {
+fn wait_nop(period: Duration) {
     let ns: u32 = period.as_nanos() as u32;
     let n_cycles = ns / 920;
     for _ in 0..n_cycles {
@@ -134,7 +128,7 @@ extern "C" {
     static __INTERRUPT_TABLE: u8;
 }
 
-pub fn load_interrupt_table() {
+fn load_interrupt_table() {
     call_without_endinit(|| unsafe {
         let interrupt_table = &__INTERRUPT_TABLE as *const u8 as u32;
         asm!("mtcr	$biv, {0}", in(reg32) interrupt_table);
@@ -146,11 +140,11 @@ mod runtime {
     use core::arch::global_asm;
 
     extern "C" {
-        pub fn _exit(status: u32) -> !;
+        fn _exit(status: u32) -> !;
     }
 
     #[no_mangle]
-    pub unsafe fn abort() -> ! {
+    unsafe fn abort() -> ! {
         _exit(0xff);
     }
 

@@ -92,8 +92,7 @@ fn pre_init_fn() {
 #[export_name = "Crt0PostInit"]
 fn post_init_fn() {
     if ssw::init_clock().is_err() {
-        info!("Error in ssw init");
-        loop {}
+        panic!("Error in ssw init");
     }
 
     load_interrupt_table();
@@ -102,7 +101,7 @@ fn post_init_fn() {
 #[allow(unused_variables)]
 #[panic_handler]
 fn panic(panic: &core::panic::PanicInfo<'_>) -> ! {
-    // defmt::error!("Panic! {}", defmt::Display2Format(panic));
+    defmt::error!("Panic! {}", defmt::Display2Format(panic));
     #[allow(clippy::empty_loop)]
     loop {}
 }

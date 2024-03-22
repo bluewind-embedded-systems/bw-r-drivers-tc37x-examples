@@ -165,6 +165,7 @@ dependencies = [
 [[package]]
 name = "tc37x"
 version = "0.0.1"
+source = "git+ssh://git@git.bwlocal.it/bw-rust/third-parties/ifx/tc37x.git?rev=ee55208#ee552087d152f603df9c71b470dc513138b6c845"
 
 [[package]]
 name = "thiserror"

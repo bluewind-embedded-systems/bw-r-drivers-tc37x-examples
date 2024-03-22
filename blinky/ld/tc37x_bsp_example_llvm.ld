@@ -1,36 +1,4 @@
-/**************************************************************************************************
- * FILE: tc37x_bsp_example.ld
- *
- * UC ARCHITECTURE:
- *
- *     TC3xx
- *
- * UC FAMILY:
- *
- *     TC37x
- *
- * DESCRIPTION:
- *
- *     Application linker file describing only elements used in BSP example 
- *     to keep the file as simple as possible.
- *
- *     It locates object sections to memory regions defined in <uC>_memory
- *     linker file via predefined ALIASES.
- *
- * FILE HISTORY:
- *
- *     V1    05.2020    RO
- *     - Base example reference
- *
- **************************************************************************************************
- 
- 
-/* ================================================================================================
- * PREDEFINED OUTPUT SECTIONS TO MEMORY REGION ALIASES
- * Aliases allow a quick change in memory placement
- * ==============================================================================================*/
-
-/* BMHD sections */ 
+/* BMHD sections */
 REGION_ALIAS("BMHD_ORIG", ucb_bmhd_orig)
 REGION_ALIAS("BMHD_COPY", ucb_bmhd_copy)
 

@@ -1,27 +1,3 @@
-/**************************************************************************************************
- * FILE: tc37xA_memory.ld
- *
- * UC ARCHITECTURE:
- *
- *    TC3xx
- *
- * UC FAMILY:
- *
- *    TC37xA
- *
- * DESCRIPTION:
- *
- *    uC family memory region definition file.
- *    Not all available memory regions are defined, only those used in BSP example.
- *    It includes the application linker files locating sections to memory regions at the end.
- *
- * FILE HISTORY:
- *
- *    V1  05.2020  RO
- *    - Base reference example
- *
- ************************************************************************************************** 
- 
 OUTPUT_FORMAT("elf32-tricore")
 OUTPUT_ARCH(tricore)
 ENTRY(_crt0_reset)

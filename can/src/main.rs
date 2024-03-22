@@ -125,8 +125,7 @@ fn main() -> ! {
     let can0 = match setup_can0() {
         Some(can) => can,
         None => {
-            info!("Can initialization error");
-            loop {}
+            panic!("Can initialization error");
         }
     };
 
@@ -202,8 +201,7 @@ fn pre_init_fn() {
 #[export_name = "Crt0PostInit"]
 fn post_init_fn() {
     if ssw::init_clock().is_err() {
-        info!("Error in ssw init");
-        loop {}
+        panic!("Error in ssw init");
     }
 
     load_interrupt_table();

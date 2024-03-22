@@ -11,6 +11,7 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 [[package]]
 name = "bw-r-drivers-tc37x"
 version = "0.1.0"
+source = "git+ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git?rev=92dbf72#92dbf7214fa6d2a14ec7965d50fd2d83e78f99dd"
 dependencies = [
  "critical-section",
  "defmt",

@@ -91,7 +91,7 @@ fn pre_init_fn() {
 
 #[export_name = "Crt0PostInit"]
 fn post_init_fn() {
-    if let Err(_) = ssw::init_clock() {
+    if ssw::init_clock().is_err() {
         info!("Error in ssw init");
         loop {}
     }

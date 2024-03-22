@@ -133,7 +133,7 @@ fn main() -> ! {
     info!("Define a message to send");
     let tx_msg_id: MessageId = {
         let id = 0x0CFE6E00;
-        let id: ExtendedId = ExtendedId::new(id).unwrap().into();
+        let id: ExtendedId = ExtendedId::new(id).unwrap();
         id.into()
     };
 
@@ -201,7 +201,7 @@ fn pre_init_fn() {
 
 #[export_name = "Crt0PostInit"]
 fn post_init_fn() {
-    if let Err(_) = ssw::init_clock() {
+    if ssw::init_clock().is_err() {
         info!("Error in ssw init");
         loop {}
     }

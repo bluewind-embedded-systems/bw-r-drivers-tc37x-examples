@@ -4,12 +4,10 @@ version = "0.1.0"
 edition = "2021"
 license = " BSL-1.0 license"
 
-[dependencies]
+[target.'cfg(target_arch = "tricore")'.dependencies]
 defmt = "=0.3.6"
 defmt-rtt = "=0.4.0"
-critical-section = { version = "=1.1.2", features = [ "restore-state-bool" ] }
-
-[dependencies.bw-r-drivers-tc37x]
-git = "ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git"
-rev = "07dab52"
-features = ["log_with_defmt"]
+critical-section = { version = "=1.1.2", features = ["restore-state-bool"] }
+bw-r-drivers-tc37x = { git = "ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git", rev = "07dab52", features = [
+  "log_with_defmt",
+] }

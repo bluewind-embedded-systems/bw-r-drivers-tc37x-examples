@@ -2,7 +2,7 @@
 name = "blinky"
 version = "0.1.0"
 edition = "2021"
-license = " BSL-1.0 license"
+license = "BSL-1.0"
 
 [target.'cfg(target_arch = "tricore")'.dependencies]
 defmt = "=0.3.6"

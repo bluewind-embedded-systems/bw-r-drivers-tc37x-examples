@@ -81,10 +81,10 @@ fn setup_can0() -> Option<Node<Can0Node, Can0, Node0, Configured>> {
         // node.setup_pins(tx, rx);
     }
 
-    node.setup_pins(&Pins {
+    node.setup_pins(Some(&Pins {
         tx: PIN_TX_0_0_P20_8,
         rx: PIN_RX_0_0_P20_7,
-    });
+    }));
 
     node.setup_interrupt(&NodeInterruptConfig {
         interrupt_group: InterruptGroup::Rxf0n,
@@ -147,7 +147,7 @@ fn main() -> ! {
         let tx_frame = Frame::new(tx_msg_id, tx_msg_data.as_slice()).unwrap();
 
         if can0.transmit(&tx_frame).is_err() {
-            // info!("Cannot send frame");
+             info!("Cannot send frame");
         }
 
         // if can1.transmit(&tx_frame).is_err() {

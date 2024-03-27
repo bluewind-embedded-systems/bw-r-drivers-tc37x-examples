@@ -11,5 +11,5 @@ critical-section = { version = "=1.1.2", features = [ "restore-state-bool" ] }
 
 [dependencies.bw-r-drivers-tc37x]
 git = "ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git"
-rev = "07dab52"
+branch = "develop"
 features = ["log_with_defmt"]

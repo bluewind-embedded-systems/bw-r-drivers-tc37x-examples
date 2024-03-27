@@ -11,14 +11,14 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 [[package]]
 name = "bw-r-drivers-tc37x"
 version = "0.1.0"
-source = "git+ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git?rev=07dab52#07dab5279addc2cd0031a9eb171954b0e59207bb"
+source = "git+ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git?rev=62056d1#62056d17ac52a32a1eb058babefdc753ebab9eea"
 dependencies = [
  "critical-section",
  "defmt",
  "defmt-rtt",
  "embedded-can",
  "embedded-hal",
- "tc37x",
+ "tc375-pac",
 ]
 
 [[package]]
@@ -163,9 +163,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "tc37x"
+name = "tc375-pac"
 version = "0.0.1"
-source = "git+ssh://git@git.bwlocal.it/bw-rust/third-parties/ifx/tc37x.git?rev=ee55208#ee552087d152f603df9c71b470dc513138b6c845"
+source = "git+https://github.com/Infineon/tc375-pac?rev=066d3327c39819b2f28bc8b341d75564d98c0af8#066d3327c39819b2f28bc8b341d75564d98c0af8"
 
 [[package]]
 name = "thiserror"

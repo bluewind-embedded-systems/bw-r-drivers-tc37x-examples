@@ -22,7 +22,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "can"
+name = "can_loopback"
 version = "0.1.0"
 dependencies = [
  "bw-r-drivers-tc37x",

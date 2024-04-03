@@ -1,0 +1,2 @@
+[registries]
+bluewind = { index = "https://github.com/bluewind-embedded-systems/bw-cargo-index" }

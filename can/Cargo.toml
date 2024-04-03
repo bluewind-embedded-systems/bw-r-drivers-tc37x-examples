@@ -10,6 +10,6 @@ defmt-rtt = "=0.4.0"
 critical-section = { version = "=1.1.2", features = [ "restore-state-bool" ] }
 
 [dependencies.bw-r-drivers-tc37x]
-git = "ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git"
+git = "https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x.git"
 branch = "main"
 features = ["log_with_defmt"]

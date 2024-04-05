@@ -16,13 +16,13 @@ use drivers::can::InterruptLine;
 use drivers::can::MessageId;
 use drivers::can::*;
 use drivers::cpu::Priority;
+use drivers::embedded_can::ExtendedId;
 use drivers::gpio::GpioExt;
 use drivers::log::info;
 use drivers::pac::can0::{Can0, N as Can0Node};
 use drivers::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
 use drivers::scu::wdt_call::call_without_endinit;
 use drivers::{pac, ssw};
-use drivers::embedded_can::ExtendedId;
 
 pub static CAN0_NODE0_NEW_MSG: AtomicBool = AtomicBool::new(false);
 

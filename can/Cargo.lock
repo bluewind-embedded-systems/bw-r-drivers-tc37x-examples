@@ -11,14 +11,14 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 [[package]]
 name = "bw-r-drivers-tc37x"
 version = "0.1.0"
-source = "git+ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git?rev=07dab52#07dab5279addc2cd0031a9eb171954b0e59207bb"
+source = "git+https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x.git?branch=main#f7769b9108c076afbfaf56344af1c89748a3cec1"
 dependencies = [
  "critical-section",
  "defmt",
  "defmt-rtt",
  "embedded-can",
  "embedded-hal",
- "tc37x",
+ "tc375-pac",
 ]
 
 [[package]]
@@ -90,8 +90,9 @@ dependencies = [
 
 [[package]]
 name = "embedded-hal"
-version = "1.0.0-rc.1"
-source = "git+https://github.com/rust-embedded/embedded-hal.git?rev=v1.0.0-rc.1#b6a7678e22d6e72ba90e3b3397048edb9baef4a6"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "361a90feb7004eca4019fb28352a9465666b24f840f5c3cddf0ff13920590b89"
 
 [[package]]
 name = "nb"
@@ -163,9 +164,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "tc37x"
+name = "tc375-pac"
 version = "0.0.1"
-source = "git+ssh://git@git.bwlocal.it/bw-rust/third-parties/ifx/tc37x.git?rev=ee55208#ee552087d152f603df9c71b470dc513138b6c845"
+source = "registry+https://github.com/bluewind-embedded-systems/bw-cargo-index"
+checksum = "8d369fb5ac4ed049cf7c13fb5e5910d1db809ed934561d38aba337a3b016d6a3"
 
 [[package]]
 name = "thiserror"

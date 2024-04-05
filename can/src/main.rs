@@ -17,13 +17,13 @@ use drivers::can::InterruptLine;
 use drivers::can::MessageId;
 use drivers::can::*;
 use drivers::cpu::Priority;
+use drivers::embedded_can::ExtendedId;
 use drivers::gpio::GpioExt;
 use drivers::log::info;
 use drivers::pac::can0::{Can0, N as Can0Node};
 use drivers::scu::wdt::{disable_cpu_watchdog, disable_safety_watchdog};
 use drivers::scu::wdt_call::call_without_endinit;
 use drivers::{pac, ssw};
-use drivers::embedded_can::ExtendedId;
 
 static CAN0_NODE0_NEW_MSG: AtomicBool = AtomicBool::new(false);
 
@@ -147,7 +147,7 @@ fn main() -> ! {
         let tx_frame = Frame::new(tx_msg_id, tx_msg_data.as_slice()).unwrap();
 
         if can0.transmit(&tx_frame).is_err() {
-             info!("Cannot send frame");
+            info!("Cannot send frame");
         }
 
         // if can1.transmit(&tx_frame).is_err() {

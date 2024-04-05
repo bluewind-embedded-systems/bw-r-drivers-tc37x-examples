@@ -3,17 +3,21 @@
 
 # About Bluewind 
 
-[Bluewind](https://www.bluewind.it/) is an independent engineering company that provides world-class products, engineering and software solutions in the domains of electronics, safety critical applications, and connected devices.
+[Bluewind](https://www.bluewind.it/) is an independent engineering company that
+provides world-class products, engineering and software solutions in the
+domains of electronics, safety critical applications, and connected devices.
 
-Bluewind is a strategic partner who creates value in the whole product innovation cycle, taking part to product strategy stage, and providing electronics and software design, certifications consultancy, and production.
+Bluewind is a strategic partner who creates value in the whole product
+innovation cycle, taking part to product strategy stage, and providing
+electronics and software design, certifications consultancy, and production.
 
 # Table of Contents
 
 - [Getting started and Code Examples](#getting-started)
-- [Usage Guide](https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/blob/main/doc/usage-guide.md)
-- [Code Documenation](https://bluewind-embedded-systems.github.io/bw-r-drivers-tc37x/)
-- [Development utilities](https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/blob/main/doc/development_utilities.md)
-- [Troubleshooting](https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/blob/main/doc/troubleshooting.md)
+- [Usage Guide][usage-guide]
+- [Code Documenation][bw-r-drivers-tc37x-documentation]
+- [Development utilities][dev-utils]
+- [Troubleshooting][troubleshooting]
 
 
 # AURIX™ Rust Startup Ecosystem
@@ -21,7 +25,7 @@ Bluewind is a strategic partner who creates value in the whole product innovatio
 The AURIX™ Rust Startup Ecosystem is a collaborative effort involving [Veecle](https://www.veecle.io), [Infineon](https://www.infineon.com), [HighTec](https://hightec-rt.com) and [Bluewind](https://www.bluewind.it) aimed at supporting Rust on Infineon's AURIX™ architecture for automotive and industrial applications. The primary objective is to empower customers to seamlessly integrate Rust tasks alongside existing C implementations for evaluation and pre-development purposes.
 
 <p align="center">
-  <img src="./.github/ecosystem.png" alt="AURIX Rust Startup Ecosystem" width="75%"/>
+  <img src="./doc/ecosystem.png" alt="AURIX Rust Startup Ecosystem" width="75%"/>
 </p>
 
 The AURIX™ Rust Startup Ecosystem consists of:
@@ -91,3 +95,21 @@ You have many options to flash and run these examples:
 - [tricore-probe](https://github.com/veecle/tricore-probe)
 - [Infineon MemTool](https://www.infineon.com/cms/en/tools/aurix-tools/free-tools/infineon/)
 - [Universal Debug Engine](https://www.pls-mc.com/products/universal-debug-engine/)
+
+[usage-guide]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/doc/usage-guide.md
+[usage-guide-toolchain]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/doc/usage-guide.md#toolchain
+[dev-utils]: doc/dev-utils
+[troubleshooting]: doc/troubleshooting.md
+[bw-r-drivers-tc37x-documentation]: https://bluewind-embedded-systems.github.io/bw-r-drivers-tc37x/
+[veecle]: https://www.veecle.io/
+[infineon]: https://www.infineon.com/
+[hightec]: https://hightec-rt.com
+[bluewind]: https://www.bluewind.it
+[pxros]: https://hightec-rt.com/en/products/real-time-os
+[tc375-pac]: https://github.com/Infineon/tc375-pac
+[bw-r-drivers-tc37x-github]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x
+[pxros-rust-bindings]: https://github.com/hightec-rt/pxros
+[veecle-pxros]: https://github.com/veecle/veecle-pxros
+[hightec-development-platform]: https://hightec-rt.com/en/products/development-platform
+[tricore-probe]: https://github.com/veecle/tricore-probe
+[bw-r-drivers-tc37x-examples]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x-examples

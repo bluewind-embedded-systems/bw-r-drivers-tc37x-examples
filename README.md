@@ -60,7 +60,7 @@ cd blinky
 cargo +tricore build --target=tc162-htc-none
 ```
 
-Check the [Toolchain](https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/blob/main/doc/usage-guide.md#toolchain) guide for additional information.
+Check the [Toolchain][usage-guide-toolchain]
 
 
 
@@ -96,10 +96,10 @@ You have many options to flash and run these examples:
 - [Infineon MemTool](https://www.infineon.com/cms/en/tools/aurix-tools/free-tools/infineon/)
 - [Universal Debug Engine](https://www.pls-mc.com/products/universal-debug-engine/)
 
-[usage-guide]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/doc/usage-guide.md
-[usage-guide-toolchain]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/doc/usage-guide.md#toolchain
-[dev-utils]: doc/dev-utils
-[troubleshooting]: doc/troubleshooting.md
+[usage-guide]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/tree/main/doc/usage-guide.md
+[usage-guide-toolchain]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/tree/main/doc/usage-guide.md#toolchain
+[dev-utils]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/tree/main/doc/dev-utils.md
+[troubleshooting]: https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x/blob/main/doc/troubleshooting.md
 [bw-r-drivers-tc37x-documentation]: https://bluewind-embedded-systems.github.io/bw-r-drivers-tc37x/
 [veecle]: https://www.veecle.io/
 [infineon]: https://www.infineon.com/

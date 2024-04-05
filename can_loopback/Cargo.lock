@@ -10,8 +10,9 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bw-r-drivers-tc37x"
-version = "0.1.0"
-source = "git+ssh://git@git.bwlocal.it/bw-rust/bw-r-drivers-tc37x.git?rev=62056d1#62056d17ac52a32a1eb058babefdc753ebab9eea"
+version = "0.2.0"
+source = "registry+https://github.com/bluewind-embedded-systems/bw-cargo-index"
+checksum = "017aad22db535654f7ddd30ab0b9b9fd47c7fd2bd1af5ac486bdead92937b751"
 dependencies = [
  "critical-section",
  "defmt",
@@ -90,8 +91,9 @@ dependencies = [
 
 [[package]]
 name = "embedded-hal"
-version = "1.0.0-rc.1"
-source = "git+https://github.com/rust-embedded/embedded-hal.git?rev=v1.0.0-rc.1#b6a7678e22d6e72ba90e3b3397048edb9baef4a6"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "361a90feb7004eca4019fb28352a9465666b24f840f5c3cddf0ff13920590b89"
 
 [[package]]
 name = "nb"
@@ -164,8 +166,9 @@ dependencies = [
 
 [[package]]
 name = "tc375-pac"
-version = "0.0.1"
-source = "git+https://github.com/Infineon/tc375-pac?rev=066d3327c39819b2f28bc8b341d75564d98c0af8#066d3327c39819b2f28bc8b341d75564d98c0af8"
+version = "0.0.2"
+source = "registry+https://github.com/Infineon/aurix-cargo-index"
+checksum = "37296b6a2a4f67fdb2b6da80c1001b848985a9f30d1c83730e66f15ec42bc79c"
 
 [[package]]
 name = "thiserror"

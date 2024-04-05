@@ -13,14 +13,7 @@ critical-section = { version = "=1.1.2", features = ["restore-state-bool"] }
 registry = "bluewind"
 version = "0.0.1"
 
-
 [dependencies.bw-r-drivers-tc37x]
 registry = "bluewind"
-version = "0.1.0"
-features = [
-  "log_with_defmt",
-] 
-
-# bw-r-drivers-tc37x = { git = "https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x.git", branch = "main", features = [
-#  "log_with_defmt",
-# ] }
+version = "0.2.0"
+features = [ "log_with_defmt" ]

@@ -14,8 +14,6 @@ registry = "bluewind"
 version = "0.0.1"
 
 [dependencies.bw-r-drivers-tc37x]
-# registry = "bluewind"
-# version = "0.1.0"
-git = "https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x.git"
-branch = "main"
+registry = "bluewind"
+version = "0.2.0"
 features = [ "log_with_defmt" ]

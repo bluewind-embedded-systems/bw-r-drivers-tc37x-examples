@@ -16,20 +16,21 @@ dependencies = [
  "critical-section",
  "defmt",
  "defmt-rtt",
- "tc375-pac",
+ "tc375-pac 0.0.1",
 ]
 
 [[package]]
 name = "bw-r-drivers-tc37x"
-version = "0.1.0"
-source = "git+https://github.com/bluewind-embedded-systems/bw-r-drivers-tc37x.git?branch=main#f7769b9108c076afbfaf56344af1c89748a3cec1"
+version = "0.2.0"
+source = "registry+https://github.com/bluewind-embedded-systems/bw-cargo-index"
+checksum = "017aad22db535654f7ddd30ab0b9b9fd47c7fd2bd1af5ac486bdead92937b751"
 dependencies = [
  "critical-section",
  "defmt",
  "defmt-rtt",
  "embedded-can",
  "embedded-hal",
- "tc375-pac",
+ "tc375-pac 0.0.2",
 ]
 
 [[package]]
@@ -169,6 +170,12 @@ name = "tc375-pac"
 version = "0.0.1"
 source = "registry+https://github.com/bluewind-embedded-systems/bw-cargo-index"
 checksum = "8d369fb5ac4ed049cf7c13fb5e5910d1db809ed934561d38aba337a3b016d6a3"
+
+[[package]]
+name = "tc375-pac"
+version = "0.0.2"
+source = "registry+https://github.com/Infineon/aurix-cargo-index"
+checksum = "37296b6a2a4f67fdb2b6da80c1001b848985a9f30d1c83730e66f15ec42bc79c"
 
 [[package]]
 name = "thiserror"
